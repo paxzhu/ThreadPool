@@ -1,25 +1,25 @@
 #include "queue.h"
 
-struct Node* createNode(T data) {
-    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+Node* create_node(T data) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->data = data;
     newNode->next = NULL;
     return newNode;
 }
 
-struct Queue* createQueue() {
-    struct Queue* queue = (struct Queue*)malloc(sizeof(struct Queue));
+Queue* create_queue() {
+    Queue* queue = (Queue*)malloc(sizeof(Queue));
     queue->head = NULL;
     queue->tail = NULL;
     return queue;
 }
 
-int isEmpty(struct Queue* queue) {
+int is_empty(Queue* queue) {
     return queue->head == NULL;
 }
 
-void enque(struct Queue* queue, T data) {
-    struct Node* newNode = createNode(data);
+void enque(Queue* queue, T data) {
+    Node* newNode = create_node(data);
     if(queue->tail == NULL) {
         queue->head = newNode;
         queue->tail = newNode;
@@ -30,25 +30,25 @@ void enque(struct Queue* queue, T data) {
     }
 }
 
-T deque(struct Queue* queue) {
-    if(isEmpty(queue)) {
+T deque(Queue* queue) {
+    if(is_empty(queue)) {
         printf("Error: queue is empty!\n");
         return -1;
     }
 
-    struct Node* temp = queue->head;
-    int deque_num = temp->data;
+    Node* temp = queue->head;
+    T deque_num = temp->data;
     queue->head = temp->next;
     free(temp);
 
-    if(isEmpty(queue)) {
+    if(is_empty(queue)) {
         queue->tail = NULL;
     }
     return deque_num;
 }
 
-T peek(struct Queue* queue) {
-    if(isEmpty(queue)) {
+T peek(Queue* queue) {
+    if(is_empty(queue)) {
         printf("queue is empty\n");
         return -1;
     }
