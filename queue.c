@@ -33,7 +33,7 @@ void enque(Queue* queue, T data) {
 T deque(Queue* queue) {
     if(is_empty(queue)) {
         printf("Error: queue is empty!\n");
-        exit(0);
+        exit(1);
     }
 
     Node* temp = queue->head;
@@ -47,10 +47,16 @@ T deque(Queue* queue) {
     return deque_num;
 }
 
+void clear(Queue* queue) {
+    while (!is_empty(queue)) {
+        deque(queue);
+    }
+}
+
 T peek(Queue* queue) {
     if(is_empty(queue)) {
         printf("queue is empty\n");
-        return -1;
+        exit(1);
     }
     return queue->head->data;
 }

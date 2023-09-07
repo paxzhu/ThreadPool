@@ -65,6 +65,9 @@ void destroy(threadpool *pool) {
     for(int i = 0; i < pool->actives; i++) {
         pthread_join(pool->tids[i], NULL);
     }
+
+    free(pool->tids);
+    clear(pool->queue);
 }
 
 int main() {
