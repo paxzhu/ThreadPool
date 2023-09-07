@@ -1,18 +1,4 @@
-#include <pthread.h>
-#include "queue.h"
-
-typedef struct {
-    int actives;
-    pthread_t *tids;
-    Queue *queue;
-    pthread_mutex_t mutex;
-    pthread_cond_t not_empty;
-} threadpool;
-
-void init_threadpool(threadpool *pool, int num_threads);
-void* worker(void*);
-void submit_task(threadpool *pool, int task);
-void destroy(threadpool *pool);
+#include "safe_queue.h"
 
 void init_threadpool(threadpool *pool, int num_threads) {
     pool->tids = (pthread_t *)malloc(sizeof(pthread_t) * num_threads);
@@ -68,19 +54,4 @@ void destroy(threadpool *pool) {
 
     free(pool->tids);
     clear(pool->queue);
-}
-
-int main() {
-    threadpool pool;
-    int num_threads = 5;
-    init_threadpool(&pool, num_threads);
-
-    //submit task
-    for(int i = 0; i < pool.actives; i++) {
-        submit_task(&pool, i+1);
-        // sleep(1);
-    }
-
-    destroy(&pool);
-    return 0;
 }
