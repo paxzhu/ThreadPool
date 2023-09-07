@@ -20,7 +20,7 @@ int is_empty(Queue* queue) {
 
 void enque(Queue* queue, T data) {
     Node* newNode = create_node(data);
-    if(queue->tail == NULL) {
+    if(is_empty(queue)) {
         queue->head = newNode;
         queue->tail = newNode;
     }
@@ -33,7 +33,7 @@ void enque(Queue* queue, T data) {
 T deque(Queue* queue) {
     if(is_empty(queue)) {
         printf("Error: queue is empty!\n");
-        return -1;
+        exit(0);
     }
 
     Node* temp = queue->head;
