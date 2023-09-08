@@ -1,57 +1,35 @@
 #include "safe_queue.h"
 
-void init_threadpool(threadpool *pool, int num_threads) {
-    pool->tids = (pthread_t *)malloc(sizeof(pthread_t) * num_threads);
-    pool->actives = num_threads;
-    pool->queue = create_queue();
-    pthread_mutex_init(&pool->mutex, NULL);
-    pthread_cond_init(&pool->not_empty, NULL);
-
-
-    for(int i = 0; i < pool->actives; i++) {
-        pthread_create(pool->tids + i, NULL, worker, (void*)pool);
-    }  
+Safe_Queue* create_safe_que() {
+    Safe_Queue* safe_que = (Safe_Queue *)malloc(sizeof(Safe_Queue));
+    // printf("declare the safe_que\n");
+    safe_que->queue = create_queue();
+    // printf("initialize the safe_queue\n");
+    pthread_mutex_init(&safe_que->mutex, NULL);
+    pthread_cond_init(&safe_que->not_empty, NULL);
+    return safe_que;
 }
 
-void* worker(void *arg) {
-    threadpool *pool = (threadpool *)arg;
-    while(1) {
-        printf("it's the thread's turn\n");
-        pthread_mutex_lock(&pool->mutex);
-        printf("get the lock\n");
-        while(is_empty(pool->queue)) {
-            printf("block and wait for signal\n");
-            pthread_cond_wait(&pool->not_empty, &pool->mutex);
-        }
-        printf("queue is not empty, get task\n");
-        int task = deque(pool->queue);
-        pthread_mutex_unlock(&pool->mutex);
-        if(task == 0) {
-            printf("terminate\n");
-            return NULL;
-        }
-        // // sleep(task);
-        printf("completed task: %d\n", task);
-    }
+void safe_enque(Safe_Queue* safe_que, T data) {
+    pthread_mutex_lock(&safe_que->mutex);
+    enque(safe_que->queue, data);
+    pthread_cond_signal(&safe_que->not_empty);
+    pthread_mutex_unlock(&safe_que->mutex);
 }
 
-void submit_task(threadpool *pool, int task) {
-    pthread_mutex_lock(&pool->mutex);
-    enque(pool->queue, task);
-    pthread_cond_signal(&pool->not_empty);
-    pthread_mutex_unlock(&pool->mutex);
+T safe_deque(Safe_Queue* safe_que) {
+    pthread_mutex_lock(&safe_que->mutex);
+    while(is_empty(safe_que->queue)) {
+        printf("safe_queue is empty!wait please!\n");
+        pthread_cond_wait(&safe_que->not_empty, &safe_que->mutex);
+    }
+    T deque_num = deque(safe_que->queue);
+    pthread_mutex_unlock(&safe_que->mutex);
+    return deque_num;
 }
 
-void destroy(threadpool *pool) {
-    printf("start destroying\n");
-    for(int i = 0; i < pool->actives; i++) {
-        submit_task(pool, 0);
-    }
-
-    for(int i = 0; i < pool->actives; i++) {
-        pthread_join(pool->tids[i], NULL);
-    }
-
-    free(pool->tids);
-    clear(pool->queue);
+void safe_clear(Safe_Queue* safe_que) {
+    pthread_mutex_lock(&safe_que->mutex);
+    clear(safe_que->queue);
+    pthread_mutex_unlock(&safe_que->mutex);
 }

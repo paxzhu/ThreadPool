@@ -4,20 +4,31 @@
  * unix> ./queue_test
  */
 
+#include <assert.h>
 #include "queue.h"
 
 int main() {
-    struct Queue* queue = createQueue();
+    Queue* queue = create_queue();
 
     enque(queue, 10);
     enque(queue, 20);
     enque(queue, 30);
+    assert (peek(queue) == 10);
+    assert (is_empty(queue) == 0);
+    assert (peek(queue) == 10);
+    assert (deque(queue) == 10);
+    assert (peek(queue) == 20);
+    assert (deque(queue) == 20);
+    assert (peek(queue) == 30);
+    assert (deque(queue) == 30);
+    assert (is_empty(queue) == 1);
 
-    printf("head of the queue: %d\n", peek(queue));
-
-    printf("deque_num = %d\n", deque(queue));
-    printf("deque_num = %d\n", deque(queue));
-    printf("deque_num = %d\n", deque(queue));
-
+    enque(queue, 0);
+    enque(queue, 20);
+    enque(queue, 40);
+    assert (peek(queue) == 0);
+    assert (is_empty(queue) == 0);
+    clear(queue);
+    assert (is_empty(queue) == 1);
     return 0;
 }

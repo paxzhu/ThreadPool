@@ -15,6 +15,7 @@ typedef struct {
     Node* tail;
 } Queue;
 
+Node* create_node(T data);
 Queue* create_queue();
 int is_empty(Queue* queue);
 void enque(Queue* queue, T data);

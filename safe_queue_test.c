@@ -5,35 +5,15 @@
  */
 
 #include "safe_queue.h"
+#include <assert.h>
 
-void test_submit_int(threadpool *pool) {
-    for(int i = 0; i < pool->actives; i++) {
-        submit_task(pool, i+1);
-        // sleep(1);
-    }
-
-    destroy(pool);
-}
-
-void test_submit_struct(threadpool *pool) {
-    for(int i = 0; i < pool->actives; i++) {
-        submit_task(pool, i+1);
-        // sleep(1);
-    }
-
-    destroy(pool);
-}
 
 int main() {
-    threadpool pool;
-    int num_threads = 5;
-    init_threadpool(&pool, num_threads);
-
-    // submit int input
-    test_submit_int(&pool);
-
-    // submit struct input
-    // test_submit_struct(&pool);
-
+    Safe_Queue* safe_que = create_safe_que();
+    safe_enque(safe_que, 10);
+    assert (safe_deque(safe_que) == 10);
+    assert (is_empty(safe_que->queue) == 1);
+    safe_deque(safe_que);
+    
     return 0;
 }

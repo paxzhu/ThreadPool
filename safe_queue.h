@@ -2,14 +2,12 @@
 #include "queue.h"
 
 typedef struct {
-    int actives;
-    pthread_t *tids;
-    Queue *queue;
+    Queue* queue;
     pthread_mutex_t mutex;
     pthread_cond_t not_empty;
-} threadpool;
+} Safe_Queue;
 
-void init_threadpool(threadpool *pool, int num_threads);
-void* worker(void*);
-void submit_task(threadpool *pool, int task);
-void destroy(threadpool *pool);
+Safe_Queue* create_safe_que();
+void safe_enque(Safe_Queue* safe_que, T data);
+T safe_deque(Safe_Queue* safe_que);
+void safe_clear(Safe_Queue* safe_que);

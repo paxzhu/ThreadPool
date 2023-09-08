@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "algorithm": "c",
+        "atomic": "c",
+        "*.tcc": "c",
+        "bitset": "c",
+        "fstream": "c",
+        "memory": "c",
+        "new": "c",
+        "numeric": "c",
+        "system_error": "c"
+    }
+}
