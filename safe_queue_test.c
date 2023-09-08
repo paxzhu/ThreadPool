@@ -1,7 +1,7 @@
  /* 在 UNIX 系统下编译和运行这段代码：
  *
- * unix> gcc safe_queue_test.c safe_queue.c queue.c -o safe_queue_test
- * unix> ./safe_queue_test
+ * unix> gcc safe_queue_test.c safe_queue.c queue.c -o safe_queue_test.out
+ * unix> ./safe_queue_test.out
  */
 
 #include "safe_queue.h"
