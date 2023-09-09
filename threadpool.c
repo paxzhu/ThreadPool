@@ -19,7 +19,7 @@ void* worker(void* arg) {
         if(task == 0) {
             return NULL;
         }
-        sleep(10-task);
+        sleep(task);
         printf("completed task: %d\n", task);
     }
 }
