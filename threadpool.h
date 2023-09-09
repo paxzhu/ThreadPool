@@ -1,7 +1,6 @@
 #ifndef __THREADPOOL_H__
 #define __THREADPOOL_H__
 
-
 #include "safe_queue.h"
 #define END_TASKS_SIGNAL -1
 
