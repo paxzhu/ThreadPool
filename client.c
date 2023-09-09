@@ -20,15 +20,18 @@
 //     "Simplicity is the soul of efficiency.\n"
 // };
 
-// char *messages[] = {
-//     "message 0\n", "message 1\n", "message 2\n", "message 3\n", "message 4\n","message 5\n", "message 6\n", "message 7\n", "message 8\n", "message 9\n", "message 10\n",
-//     "message 11\n", "message 12\n", "message 13\n", "message 14\n","message 15\n", "message 16\n", "message 17\n", "message 18\n", "message 19\n", "message 20\n"
-// };
-
 char *messages[] = {
-    "message 0", "message 1", "message 2", "message 3", "message 4","message 5", "message 6", "message 7", "message 8", "message 9", "message 10",
-    "message 11", "message 12", "message 13", "message 14","message 15", "message 16", "message 17", "message 18", "message 19", "message 20"
+    "message 0\n", "message 1\n", "message 2\n", "message 3\n", "message 4\n","message 5\n", "message 6\n", "message 7\n", "message 8\n", "message 9\n", "message 10\n",
+    "message 11\n", "message 12\n", "message 13\n", "message 14\n","message 15\n", "message 16\n", "message 17\n", "message 18\n", "message 19\n", "message 20\n"
 };
+
+// char *messages[] = {
+//     "message 0", "message 1", "message 2", "message 3", "message 4","message 5", "message 6", "message 7", "message 8", "message 9", "message 10",
+//     "message 11", "message 12", "message 13", "message 14","message 15", "message 16", "message 17", "message 18", "message 19", "message 20"
+// };
+/*Rio_readlineb(rio, buf, maxlen)从rio读取字符存储到buf直到遇到换行符\n才会停止读取，
+否则只在达到 maxlen-1时才会停止。所以当message不以换行符结尾时，只能等到读满maxlen-1个字符为止，
+而在这儿由于既没换行符又读不到maxlen-1，故一直等待直到满足两个条件之一才会返回。*/
 
 char *servaddr = "localhost";
 int servport = 8888;
