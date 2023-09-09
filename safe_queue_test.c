@@ -1,19 +1,30 @@
- /* 在 UNIX 系统下编译和运行这段代码：
- *
- * unix> gcc safe_queue_test.c safe_queue.c queue.c -o safe_queue_test.out
- * unix> ./safe_queue_test.out
- */
-
 #include "safe_queue.h"
 #include <assert.h>
 
 
+void *worker(void* arg) {
+    SafeQueue* safe_que = arg;
+    while(1) {
+        sleep(1);
+        int task = safe_deque(safe_que);
+        printf("comleted task: %d\n", task);
+    }
+}
+
 int main() {
-    Safe_Queue* safe_que = create_safe_que();
-    safe_enque(safe_que, 10);
-    assert (safe_deque(safe_que) == 10);
-    assert (is_empty(safe_que->queue) == 1);
-    safe_deque(safe_que);
+    SafeQueue* safe_que = create_safe_que();
+    //activate worker
+    pthread_t tid;
+    pthread_create(&tid, NULL, worker, safe_que);
+
+    //producer
+    for(int i = 1; i < 6; i++) {
+        sleep(2);
+        safe_enque(safe_que, i);
+        printf("submit task: %d\n", i);
+    }
     
+    sleep(10);
+    safe_clear(safe_que);
     return 0;
 }

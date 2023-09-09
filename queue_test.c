@@ -1,9 +1,3 @@
- /* 在 UNIX 系统下编译和运行这段代码：
- *
- * unix> gcc queue_test.c queue.c -o queue_test
- * unix> ./queue_test
- */
-
 #include <assert.h>
 #include "queue.h"
 

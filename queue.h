@@ -1,3 +1,6 @@
+#ifndef __QUEUE_H__
+#define __QUEUE_H__
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -22,3 +25,5 @@ void enque(Queue* queue, T data);
 T deque(Queue* queue);
 T peek(Queue* queue);
 void clear(Queue* queue);
+
+#endif

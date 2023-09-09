@@ -7,15 +7,15 @@ ThreadPool* init_threadpool(int num_threads) {
     pool->safe_que = create_safe_que();
 
     for(int i = 0; i < pool->actives; i++) {
-        pthread_create(pool->tids + i, NULL, worker, (void*)pool);
+        pthread_create(pool->tids + i, NULL, worker, pool->safe_que);
     }
     return pool;
 }
 
 void* worker(void* arg) {
-    ThreadPool* pool = (ThreadPool*)arg;
+    SafeQueue* safe_que = arg;
     while (1) {
-        T task = safe_deque(pool->safe_que);
+        T task = safe_deque(safe_que);
         if(task == 0) {
             return NULL;
         }
