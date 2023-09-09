@@ -1,7 +1,7 @@
 #include "safe_queue.h"
 #include "csapp.h"
 
-#define ACTIVES 6
+#define ACTIVES 5
 
 void* worker(void *arg);
 void echo(int connfd);
