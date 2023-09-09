@@ -14,18 +14,6 @@ ThreadPool* init_threadpool(int num_threads, Handler* handler) {
     return pool;
 }
 
-// void* worker(void* arg) {
-//     SafeQueue* safe_que = arg;
-//     while (1) {
-//         T task = safe_deque(safe_que);
-//         if(task == END_TASKS_SIGNAL) {
-//             return NULL;
-//         }
-//         sleep(task);
-//         printf("completed task: %d\n", task);
-//     }
-// }
-
 void* worker(void* arg) {
     ThreadPool *pool = arg;
     while (1) {
