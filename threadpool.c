@@ -1,28 +1,43 @@
 #include "threadpool.h"
+#include "../WebServer/csapp.h"
 
-ThreadPool* init_threadpool(int num_threads) {
+ThreadPool* init_threadpool(int num_threads, Handler* handler) {
     ThreadPool *pool = (ThreadPool *)malloc(sizeof(ThreadPool));
     pool->actives = num_threads;
+    pool->handler = handler;
     pool->tids = (pthread_t *)malloc(sizeof(pthread_t) * num_threads);
     pool->safe_que = create_safe_que();
 
     for(int i = 0; i < pool->actives; i++) {
-        pthread_create(pool->tids + i, NULL, worker, pool->safe_que);
+        pthread_create(pool->tids + i, NULL, worker, pool);
     }
     return pool;
 }
 
+// void* worker(void* arg) {
+//     SafeQueue* safe_que = arg;
+//     while (1) {
+//         T task = safe_deque(safe_que);
+//         if(task == END_TASKS_SIGNAL) {
+//             return NULL;
+//         }
+//         sleep(task);
+//         printf("completed task: %d\n", task);
+//     }
+// }
+
 void* worker(void* arg) {
-    SafeQueue* safe_que = arg;
+    ThreadPool *pool = arg;
     while (1) {
-        T task = safe_deque(safe_que);
-        if(task == 0) {
+        T index = safe_deque(pool->safe_que);
+        if(index == END_TASKS_SIGNAL) {
             return NULL;
         }
-        sleep(task);
-        printf("completed task: %d\n", task);
+
+        pool->handler(index);
     }
 }
+
 
 void submit_task(ThreadPool* pool, T task) {
     safe_enque(pool->safe_que, task);
