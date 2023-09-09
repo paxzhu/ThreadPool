@@ -4,7 +4,7 @@
 #define ACTIVES 5
 
 void* worker(void *arg);
-void echo(int connfd);
+void echo_with_sleep(int connfd);
 
 int main(int argc, char **argv) {
     if(argc != 2) {
@@ -36,7 +36,7 @@ void* worker(void *arg) {
     while (1) {
         int connfd = safe_deque(safe_que);
         //handler
-        echo(connfd);
+        echo_with_sleep(connfd);
         Close(connfd);
     }
 }
