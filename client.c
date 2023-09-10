@@ -46,10 +46,8 @@ void send_messages(int index) {
     //send to server,
     // printf("message: %s, len: %ld\n", messages[index], strlen(messages[index]));
     Rio_writen(clientfd, messages[index], strlen(messages[index]));
-    printf("================\n");
     //receive the echo from the server
     Rio_readlineb(&rio, buf, MAXLINE);
-    printf("------%s--------\n", buf);
     Fputs(buf, stdout);
 
     Close(clientfd);        
