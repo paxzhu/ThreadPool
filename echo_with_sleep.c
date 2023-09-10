@@ -1,6 +1,6 @@
 #include "csapp.h"
 
-void echo(int connfd)
+void echo_with_sleep(int connfd)
 {
         size_t n;
         char buf[MAXLINE];

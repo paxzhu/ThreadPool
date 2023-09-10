@@ -14,7 +14,7 @@ safe_queue_test.out: safe_queue_test.c safe_queue.c queue.c
 threadpool_test.out: threadpool_test.c threadpool.c safe_queue.c queue.c
 	$(CC) threadpool_test.c threadpool.c safe_queue.c queue.c -o $@
 
-server.out: server.c csapp.c safe_queue.c queue.c echo.c
+server.out: server.c csapp.c safe_queue.c queue.c echo_with_sleep.c
 	$(CC) server.c csapp.c safe_queue.c queue.c echo_with_sleep.c -o server.out
 
 client.out: 
