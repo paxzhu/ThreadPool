@@ -1,5 +1,7 @@
 CC = gcc
 
+.PHONY: server.out client.out 
+
 all: prompt
 
 prompt: 
